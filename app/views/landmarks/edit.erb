@@ -1,6 +1,24 @@
-<h2>Edit Historical Landmark</h2>
-
-<!-- add content here -->
-
-<a class="button" href="/figures">Landmarks</a>
-<a class="button" href="/">Home</a>
+<h2>Edit <%=@landmark.name%>!</h2>
+<form class="edit_landmark" action="/landmarks/<%=@landmark.id%>" method="post">
+  <label for="name">landmark Name:</label>
+  <input type="text" name="landmark[name]" id="name">
+  <label for="year_completed">Landmark Year Completed:</label>
+  <input type="text" name="landmark[year_completed]" id="year_completed" value="<%=@landmark.year_completed%>">
+  <br>
+  <p>does your Landmark have any of these titles?</p>
+  <%@titles.each do |title|%>
+  <input type="checkbox" name="landmark[title_ids][]" value="<%=title.id%>" id="title_<%=title.id%>" <%="checked" if @landmark.title_ids.include?(title.id)%>><%=title.name%>
+  <% end %>
+  <br>
+  <p>does your Landmark have any of these figures?</p>
+  <%@figures.each do |figure|%>
+  <input type="radio" name="landmark[figure_id]" value="<%=figure.id%>" id="figure_<%=figure.id%>" <%="checked" if @landmark.figure_id == figure.id%>><%=figure.name%>
+  <% end %>
+  <br>
+  <label for="landmark_figure">Create a new figure for your Landmark:</label>
+  <input type="text" name="figure[name]" id="new_figure">
+  <label for="landmark_title">Create a new title for your Landmark (make multiple by comma separating them):</label>
+  <input type="text" name="title[name]" id="new_title">
+  <input type="submit" value="Edit Landmark">
+  
+</form>
