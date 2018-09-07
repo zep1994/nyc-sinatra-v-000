@@ -1,36 +1,35 @@
 class LandmarksController < ApplicationController
- 
+
   get '/landmarks' do
-   @landmarks = Landmark.all 
+   @landmarks = Landmark.all
    erb:'landmarks/index'
   end
- 
+
   get '/landmarks/new' do
    @titles = Title.all
-   @figure = Figure.all 
+   @figure = Figure.all
    erb:'landmarks/new'
   end
-  
+
   get '/landmarks/:id' do
     @landmark = Landmark.find(params[:id])
-    erb:'landmark/show' 
-  end 
-  
+    erb:'landmark/show'
+  end
+
   get '/landmarks/:id/edit' do
     @landmark = Landmark.find(params[:id])
     @figures = Figure.all
-    @titles = Title.all 
+    @titles = Title.all
     erb:'landmarks/edit'
   end
-  
+
   post '/landmarks' do
     @landmark = Landmark.create(name: params[:landmark][:name])
     if !params[:landmark][:year_completed].empty?
       @landmark.year_completed = params[:landmark][:year_completed]
     end
-    if !params[:landmark][:name].empty?
-      landmark = Landmark.find_or_create_by(name: params[:landmark][:name])
-      @landmark.landmarks << landmark
+    if params[:landmark][:landmark_id]
+      @landmark.figure_id = params[:landmark][:figure_id]
     end
   end
   if !params[:title].empty?
