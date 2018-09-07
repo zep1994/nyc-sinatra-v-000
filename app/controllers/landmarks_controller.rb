@@ -31,20 +31,20 @@ class LandmarksController < ApplicationController
     if params[:landmark][:landmark_id]
       @landmark.figure_id = params[:landmark][:figure_id]
     end
+  if !params[:figure][:name].empty?
+    figure = Figure.find_or_create_by(name: params[:figure][:name])
+      @landmark.figures << figure
   end
-  if !params[:title].empty?
-    params[:figure][:title_ids] = [] if !params[:figure][:title_ids])
-      if !params[:title][:name].split(",").map!(&:strip).each do |name|
-        title = Title.find_or_create_by(name: name)
-        params[:figure][:title_ids] << title.id
-      end
+  if params[:landmark][:title_ids]
+    @landmark.title_ids = params[:landmark][:title_ids]
   end
-    params[:figure][:title_ids].each do |title_id|
-      @landmark.figure_titles.create(title_id: title_id)
-    end
+  if !params[:title][:name].empty?
+    title = Title.find_or_create_by(name: params[:title][:name])
+    @landmark.title << title
   end
   @landmark.save
-  redirect :"figures/#{@figure.id}"
+  redirect :"landmarks/#{@landmark.id}"
+end
 
   post '/figures/:id' do
     @figure = Figure.find(params[:id])
