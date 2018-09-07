@@ -60,11 +60,11 @@ class FiguresController < ApplicationController
       @figure.landmarks << landmark
     end
     if !params[:title].empty?
-      params[:figure][:title_id] = [] if !params[:figure][:title_ids]  
+      params[:figure][:title_id] = [] if !params[:figure][:title_ids]
       if !params[:title][:name].empty?
         params[:title][:name].split(",").map!(&:strip).each do |name|
           title = Title.find_or_create_by(name: name)
-          params[:figure][:title_id] << title.id 
+          params[:figure][:title_id] << title.id
         end
       end
       (@figure.title_ids - params[:figure][:title_ids]).each do |title_id|
