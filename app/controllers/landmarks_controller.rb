@@ -70,4 +70,5 @@ post '/landmarks/:id' do
     end
     @landmark.save
     redirect :"landmarks/#{@landmark.id}"
-  endend
+  end
+end
